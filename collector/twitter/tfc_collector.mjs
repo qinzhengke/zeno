@@ -4,7 +4,6 @@ import * as fs from 'fs'
 
 async function getFollowersCnt(accounts){
   var url = 'https://api.twitter.com/2/users/by?usernames='
-  // console.log(accounts.length)
   for(var i=0; i<accounts.length; i++){
     url += accounts[i]
     if(i != accounts.length-1) url += ','
@@ -12,10 +11,6 @@ async function getFollowersCnt(accounts){
   url += '&user.fields=public_metrics'
 
   console.log(url)
-
-  // var options = {};
-  // options.headers = {
-  // };
 
   var cnts = []
   const response = await fetch(url, {
@@ -34,15 +29,13 @@ async function getFollowersCnt(accounts){
 }
 
 export async function fetchFollowersData(){
+
   console.log('fetchFollowersData()')
-    // var now = Utilities.formatDate(new Date(), "GMT+1", "yyyy/MM/dd")
 
   var date = new Date()
   var date_str = date.getUTCFullYear() + '/' + (date.getUTCMonth()+1) + '/' + date.getUTCDate() 
 
   var accounts = getWatchAccounts()
-
-  // console.log(accounts)
 
   var batch = 10
   var cnts = []
