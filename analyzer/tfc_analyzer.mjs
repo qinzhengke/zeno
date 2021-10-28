@@ -30,7 +30,7 @@ function dumpDiffs(total_diffs){
   if(str_day.length ==1) str_day = '0' + str_day
   var date_str = date.getUTCFullYear() + str_month + str_day
 
-  var fpath = 'twitter_follows_count_trend-' + date_str + '.csv'
+  var fpath = date_str + '-twitter_follows_count_trend.csv'
   var head = 'account'
   total_diffs.values().next().value.forEach(function(v,k){
     head += ',df'+k+',rdf'+k+',ddf'+k
