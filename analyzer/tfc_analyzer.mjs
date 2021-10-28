@@ -2,6 +2,25 @@ import * as fs from 'fs'
 import * as reader from 'read-last-lines'
 import sscanf from 'sscanf'
 
+function getDateStr(){
+  var date = new Date()
+  var str_month = '' + (date.getUTCMonth()+1)
+  if(str_month.length ==1) str_month = '0' + str_month
+  var str_day = '' + date.getUTCDate()
+  if(str_day.length ==1) str_day = '0' + str_day
+  return date.getUTCFullYear() + str_month + str_day
+}
+
+function getNumStr(num){
+  if(num > 1000000){
+    return (num/1000000).toFixed(2) + 'M'
+  }
+  else if(num > 1000){
+    return (num/1000).toFixed(2) + 'K'
+  }
+  else return '' + num
+}
+
 function dumpDiffs(total_diffs){
 
   var date = new Date()
@@ -16,7 +35,7 @@ function dumpDiffs(total_diffs){
   total_diffs.values().next().value.forEach(function(v,k){
     head += ',df'+k+',rdf'+k+',ddf'+k
   })
-  fs.appendFile(fpath, head, function(err){ if(err) throw err })
+  fs.writeFile(fpath, head, function(err){ if(err) throw err })
 
   total_diffs.forEach(function(value,key){
 
@@ -27,89 +46,57 @@ function dumpDiffs(total_diffs){
 	  console.log(line)
         fs.appendFile(fpath, line, function(err){ if(err) throw err })
   })
-
-  fs.copyFileSync(fpath, '/root/gdrive/'+fpath)
 }
 
-function dumpDiffsForShare(total_diffs){
+function sortDiffs(diffs,step,type){
 
-  const rank1 = new Map([...total_diffs.entries()].sort((a, b) => b[1].get(1).df - a[1].get(1).df));
-
-  var date = new Date()
-  var str_month = '' + (date.getUTCMonth()+1)
-  if(str_month.length ==1) str_month = '0' + str_month
-  var str_day = '' + date.getUTCDate()
-  if(str_day.length ==1) str_day = '0' + str_day
-  var date_str = date.getUTCFullYear() + str_month + str_day
-
-  var fpath = 'twitter_follows_count_trend_share-' + date_str + '.txt'
-  var head = 'rank ' + 'account'.padEnd(20)
-  rank1.values().next().value.forEach(function(v,k){
-    head += (k + ' day inc').padEnd(14) + (k + ' day rel inc').padEnd(16)
-  })
-  console.log(head)
-  fs.appendFile(fpath, head, function(err){ if(err) throw err })
-
-  var i = 0
-  rank1.forEach(function(value,key){
-
-    if(i < 10){
-  	var line = '\n' + (''+(i+1)+'.').padEnd(5) + key.padEnd(20)
-	value.forEach(function(v,k){
-	    line += (''+v.df).padEnd(14) + (''+(v.rdf*100).toFixed(2)+'%').padEnd(16)
-	})
-	console.log(line)
-        fs.appendFile(fpath, line, function(err){ if(err) throw err })
-	i++
-    }
-  })
-
-  fs.copyFileSync(fpath, '/root/gdrive/'+fpath)
+  if(type == 'rdf'){
+    return new Map([...diffs.entries()].sort((a, b) => b[1].get(step).rdf - a[1].get(step).rdf));
+  }
+  else if(type == 'ddf'){
+    return new Map([...diffs.entries()].sort((a, b) => b[1].get(step).ddf - a[1].get(step).ddf));
+  }
+  else{	// 'df' and all others.
+    return new Map([...diffs.entries()].sort((a, b) => b[1].get(step).df - a[1].get(step).df));
+  }
 }
 
-function dumpDiffsForShare2(total_diffs){
+function dumpDiffsForShare(fpath, total_diffs, title){
 
-  const rank1 = new Map([...total_diffs.entries()].sort((a, b) => b[1].get(1).rdf - a[1].get(1).rdf));
-
-  var date = new Date()
-  var str_month = '' + (date.getUTCMonth()+1)
-  if(str_month.length ==1) str_month = '0' + str_month
-  var str_day = '' + date.getUTCDate()
-  if(str_day.length ==1) str_day = '0' + str_day
-  var date_str = date.getUTCFullYear() + str_month + str_day
-
-  var fpath = 'twitter_follows_count_trend_share2-' + date_str + '.txt'
-  var head = 'rank ' + 'account'.padEnd(20)
-  rank1.values().next().value.forEach(function(v,k){
-    head += (k + ' day inc').padEnd(14) + (k + ' day rel inc').padEnd(16)
-  })
-  console.log(head)
-  fs.appendFile(fpath, head, function(err){ if(err) throw err })
-
-  var i = 0
-  rank1.forEach(function(value,key){
-
-    if(i < 10){
-  	var line = '\n' + (''+(i+1)+'.').padEnd(5) + key.padEnd(20)
-	value.forEach(function(v,k){
-	    line += (''+v.df).padEnd(14) + (''+(v.rdf*100).toFixed(2)+'%').padEnd(16)
-	})
-	console.log(line)
-        fs.appendFile(fpath, line, function(err){ if(err) throw err })
-	i++
+  var line = 'Date: ' + getDateStr()
+  fs.writeFileSync(fpath, line, function(err){ if(err) throw err })
+  line = '\n\n' + title
+  fs.appendFileSync(fpath, line, function(err){ if(err) throw err })
+  var head = '\n\n' + 'rank ' + 'account'.padEnd(20)
+  total_diffs.values().next().value.forEach(function(v,k){
+    if([1,3].includes(k)){
+      head += (k + ' day inc').padEnd(14) + (k + ' day rel inc').padEnd(16)
     }
   })
+  console.log(head)
+  fs.appendFileSync(fpath, head+'\n', function(err){ if(err) throw err })
 
-  fs.copyFileSync(fpath, '/root/gdrive/'+fpath)
+  var i = 0
+  total_diffs.forEach(function(value,key){
+    if(i < 20){
+      line = '\n' + (''+(i+1)+'.').padEnd(5) + key.padEnd(20)
+      value.forEach(function(v,k){
+          if([1,3].includes(k)){
+            line += (''+v.df).padEnd(14) + (''+(v.rdf*100).toFixed(2)+'%').padEnd(16)
+          }
+      })
+      console.log(line)
+      fs.appendFileSync(fpath, line, function(err){ if(err) throw err })
+      i++
+    }
+  })
 }
 
 export async function analyze(folder){
     var fpaths = fs.readdirSync(folder)
     var accounts = []
-    fpaths.forEach(function(f,i){accounts.push(f.split('.')[0])})
+    fpaths.forEach(function(f,i){ accounts.push(f.split('.')[0])})
     fpaths.forEach(function(f,i){ fpaths[i] = folder + '/' + f})
-
-    console.log(fpaths)
 
     var steps = [1,3,7,15]
     var n = Math.max(...steps) + 2
@@ -152,8 +139,16 @@ export async function analyze(folder){
 
     dumpDiffs(total_diffs)
 
-    dumpDiffsForShare(total_diffs)
+    var date_str = getDateStr()
 
-    dumpDiffsForShare2(total_diffs)
+    var df1_diffs = sortDiffs(total_diffs, 1, 'df')
+    var fpath = date_str + '-tfc_trend_share-df1.txt'
+    var title = 'Twitter followers increasement, sorted by 1 day inc.'
+    dumpDiffsForShare(fpath, df1_diffs, title)
+
+    var rdf1_diffs = sortDiffs(total_diffs, 1, 'rdf')
+    fpath = date_str + '-tfc_trend_share-rdf1.txt'
+    title = 'Twitter followers increasement, sorted by 1 day relative inc.'
+    dumpDiffsForShare(fpath, rdf1_diffs, title)
 
 }
