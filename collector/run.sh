@@ -2,8 +2,14 @@
 
 date=$(date +"%Y%m%d")
 
-cd ~/.zeno/tfc_collector
-node ~/zeno/collector/main.mjs > log.txt
+mkdir -p ~/.zeno
+
 cd ~/.zeno
-mkdir -p log/cryptorank/basic_collector
-python3 ~/zeno/collector/cryptorank/basic_collector.py > ./log/cryptorank/basic_collector/${date}.txt
+folder=log/collector/twitter/basic_collector
+mkdir -p ${folder}
+python3 ~/zeno/collector/twitter/basic_collector.py > ./${folder}/${date}.txt
+
+cd ~/.zeno
+folder=log/collector/cryptorank/basic_collector
+mkdir -p ${folder}
+python3 ~/zeno/collector/cryptorank/basic_collector.py > ./${folder}/${date}.txt
