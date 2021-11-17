@@ -118,7 +118,7 @@ export function getWatchAccounts(){
 	'Revain_org',
 	'Ripple_XRP1',
     'SecretNetwork',
-	'shibaa_token',
+	'Shibtoken',
 	'SkaleNetwork',
 	'solana',
 	'Stablecoin_HUSD',
