@@ -5,19 +5,19 @@
     },
     {
         "twitter":"0xproject",
-        "token":""
+        "token":"ZRX"
     },
     {
         "twitter":"1inch",
-        "token":""
+        "token":"1INCH"
     },
     {
         "twitter":"AaveAave",
-        "token":""
+        "token":"AAVE"
     },
     {
         "twitter":"AcalaNetwork",
-        "token":""
+        "token":"ACA"
     },
     {
         "twitter":"Algorand",
@@ -25,23 +25,23 @@
     },
     {
         "twitter":"AlphaFinanceLab",
-        "token":""
+        "token":"ALPHA"
     },
     {
         "twitter":"ankr",
-        "token":""
+        "token":"ANKR"
     },
     {
         "twitter":"AragonProject",
-        "token":""
+        "token":"ANT"
     },
     {
         "twitter":"ArivaCoin",
-        "token":""
+        "token":"ARV"
     },
     {
         "twitter":"AttentionToken",
-        "token":""
+        "token":"BAT"
     },
     {
         "twitter":"avalancheavax",
@@ -49,11 +49,11 @@
     },
     {
         "twitter":"ArweaveTeam",
-        "token":""
+        "token":"AR"
     },
     {
         "twitter":"AudiusProject",
-        "token":""
+        "token":"AUDIO"
     },
     {
         "twitter":"AxieInfinity",
@@ -61,11 +61,11 @@
     },
     {
         "twitter":"Bancor",
-        "token":""
+        "token":"BNT"
     },
     {
         "twitter":"bifrost_finance",
-        "token":""
+        "token":"BFC"
     },
     {
         "twitter":"BinanceChain",
@@ -73,11 +73,11 @@
     },
     {
         "twitter":"Bitcoin",
-        "token":""
+        "token":"BTC"
     },
     {
         "twitter":"bitcoingold",
-        "token":""
+        "token":"BTG"
     },
     {
         "twitter":"bitpay",
@@ -85,15 +85,15 @@
     },
     {
         "twitter":"BitTorrent",
-        "token":""
+        "token":"BTT"
     },
     {
         "twitter":"bloktopia",
-        "token":""
+        "token":"BLK"
     },
     {
         "twitter":"bobanetwork",
-        "token":""
+        "token":"BOBA"
     },
     {
         "twitter":"Cardano",
@@ -101,11 +101,11 @@
     },
     {
         "twitter":"CelerNetwork",
-        "token":""
+        "token":"CELR"
     },
     {
         "twitter":"CeloOrg",
-        "token":""
+        "token":"CELO"
     },
     {
         "twitter":"chainlink",
@@ -113,19 +113,19 @@
     },
     {
         "twitter":"chia_project",
-        "token":""
+        "token":"XCH"
     },
     {
         "twitter":"Chiliz",
-        "token":""
+        "token":"CHZ"
     },
     {
         "twitter":"compoundfinance",
-        "token":""
+        "token":"COMP"
     },
     {
         "twitter":"cosmos",
-        "token":""
+        "token":"ATOM"
     },
     {
         "twitter":"cryptovoxels",
@@ -133,11 +133,11 @@
     },
     {
         "twitter":"CurveFinance",
-        "token":""
+        "token":"CRV"
     },
     {
         "twitter":"Dashpay",
-        "token":""
+        "token":"DASH"
     },
     {
         "twitter":"DECENTplatform",
@@ -149,7 +149,7 @@
     },
     {
         "twitter":"decredproject",
-        "token":""
+        "token":"DCR"
     },
     {
         "twitter":"dentcoin",
@@ -197,7 +197,7 @@
     },
     {
         "twitter":"eth_classic",
-        "token":""
+        "token":"ETC"
     },
     {
         "twitter":"e__Cash",
@@ -229,7 +229,7 @@
     },
     {
         "twitter":"gnosisPM",
-        "token":""
+        "token":"GNO"
     },
     {
         "twitter":"golemproject",
@@ -245,11 +245,11 @@
     },
     {
         "twitter":"harmonyprotocol",
-        "token":""
+        "token":"ONE"
     },
     {
         "twitter":"hedera",
-        "token":""
+        "token":"HBAR"
     },
     {
         "twitter":"helium",
@@ -269,11 +269,11 @@
     },
     {
         "twitter":"HuobiGlobal",
-        "token":""
+        "token":"HT"
     },
     {
         "twitter":"H_O_L_O_",
-        "token":""
+        "token":"HOT"
     },
     {
         "twitter":"investvoyager",
@@ -285,7 +285,7 @@
     },
     {
         "twitter":"iota",
-        "token":""
+        "token":"IOTA"
     },
     {
         "twitter":"iotex_io",
@@ -293,11 +293,11 @@
     },
     {
         "twitter":"IPFS",
-        "token":""
+        "token":"FIL"
     },
     {
         "twitter":"ItsDogeCoin",
-        "token":""
+        "token":"DOGE"
     },
     {
         "twitter":"joincolony",
@@ -317,7 +317,7 @@
     },
     {
         "twitter":"klaytn_official",
-        "token":""
+        "token":"KLAY"
     },
     {
         "twitter":"kucoincom",
@@ -325,7 +325,7 @@
     },
     {
         "twitter":"kusamanetwork",
-        "token":""
+        "token":"KSM"
     },
     {
         "twitter":"LiskHQ",
@@ -337,39 +337,43 @@
     },
     {
         "twitter":"LivepeerOrg",
-        "token":""
+        "token":"LPT"
     },
     {
         "twitter":"loopringorg",
-        "token":""
+        "token":"LRC"
     },
     {
         "twitter":"MakerDAO",
-        "token":""
+        "token":"MKR"
     },
     {
         "twitter":"Mdexswap",
-        "token":""
+        "token":"MDX"
     },
     {
         "twitter":"minaprotocol",
-        "token":""
+        "token":"MINA"
     },
     {
         "twitter":"monero",
         "token":""
     },
     {
+        "twitter":"MoonriverNW",
+        "token":"MOVR"
+    },
+    {
         "twitter":"MySiacoin",
-        "token":""
+        "token":"SC"
     },
     {
         "twitter":"nano",
-        "token":""
+        "token":"XNO"
     },
     {
         "twitter":"NEARProtocol",
-        "token":""
+        "token":"NEAR"
     },
     {
         "twitter":"NEMofficial",
@@ -381,7 +385,7 @@
     },
     {
         "twitter":"NervosNetwork",
-        "token":""
+        "token":"CKB"
     },
     {
         "twitter":"NexoFinance",
@@ -393,7 +397,7 @@
     },
     {
         "twitter":"numerai",
-        "token":""
+        "token":"NMR"
     },
     {
         "twitter":"oceanprotocol",
@@ -405,7 +409,7 @@
     },
     {
         "twitter":"OntologyNetwork",
-        "token":""
+        "token":"ONT"
     },
     {
         "twitter":"PancakeSwap",
@@ -429,7 +433,7 @@
     },
     {
         "twitter":"PolymathNetwork",
-        "token":""
+        "token":"POLY"
     },
     {
         "twitter":"ProjectSerum",
@@ -441,15 +445,15 @@
     },
     {
         "twitter":"qtum",
-        "token":""
+        "token":"QTUM"
     },
     {
         "twitter":"Ravencoin",
-        "token":""
+        "token":"RVN"
     },
     {
         "twitter":"RaydiumProtocol",
-        "token":""
+        "token":"RAY"
     },
     {
         "twitter":"renprotocol",
@@ -477,7 +481,7 @@
     },
     {
         "twitter":"SkaleNetwork",
-        "token":""
+        "token":"SKL"
     },
     {
         "twitter":"solana",
@@ -489,11 +493,11 @@
     },
     {
         "twitter":"Stacks",
-        "token":""
+        "token":"STX"
     },
     {
         "twitter":"steemit",
-        "token":""
+        "token":"STEEM"
     },
     {
         "twitter":"StellarOrg",
@@ -513,11 +517,11 @@
     },
     {
         "twitter":"telcoin_team",
-        "token":""
+        "token":"TEL"
     },
     {
         "twitter":"Tether_to",
-        "token":""
+        "token":"USDT"
     },
     {
         "twitter":"terra_money",
@@ -533,7 +537,7 @@
     },
     {
         "twitter":"Theta_Network",
-        "token":""
+        "token":"THETA"
     },
     {
         "twitter":"THORChain",
@@ -549,7 +553,7 @@
     },
     {
         "twitter":"Uniswap",
-        "token":""
+        "token":"UNI"
     },
     {
         "twitter":"PaxDollarUSDP",
@@ -577,6 +581,6 @@
     },
     {
         "twitter":"zilliq",
-        "token":""
+        "token":"ZIL"
     }
 ]
