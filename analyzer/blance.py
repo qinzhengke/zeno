@@ -59,6 +59,76 @@ def load_ledger(folder):
     data.sort(key=lambda x:x['date'])
     return data
 
+def print_summary(data):
+
+    profit = total_token_val_cny + data['CNY']['count']
+    relative_profit = profit / (-data['CNY']['count']) * 100
+    s = '<table border=1px>'
+    s += '<tr><td align="right">Date</td><td>%s</td></tr>'%ticker.get_datestr()
+    s += '<tr><td align="right">Total CNY devote (CNY)</td>'
+    s += '<td align="right">%.1f</td></tr>'%data['CNY']['count']
+    s += '<tr><td align="right">Total token values (CNY)</td>'
+    s += '<td align="right">%.1f</td></tr>'%total_token_val_cny
+    s += '<tr><td align="right">Total profit (CNY)</td>'
+    s += '<td align="right">%.1f</td></tr>'%profit
+    s += '<tr><td align="right">Total relative profit</td>'
+    s += '<td align="right">%.1f%%</td></tr>'%relative_profit
+
+    s += '</table>'
+    return s
+
+def print_token_summary(data):
+
+    s = '<table border=1px>'
+
+    numlen = 14
+
+    s += '<tr><td>'
+    for token in data: s += '<td align="center" style="width:80px">%s</td>'%token
+    s += '</tr>'
+
+    s += '<tr><td>Count</td>'
+    for _,token in data.items(): s += '<td align="right">%.2f</td>'%token['count']
+    s += '</tr><tr>'
+
+    s += '<tr><td>Price(USD)</td>'
+    for _,token in data.items(): s += '<td align="right">%.2f</td>'%token['price_usd']
+    s += '</tr><tr>'
+
+    s += '<tr><td>Value(USD)</td>'
+    for _,token in data.items(): s += '<td align="right">%.2f</td>'%token['val_usd']
+    s += '</tr><tr>'
+
+    s += '<tr><td>Value(CNY)</td>'
+    for _,token in data.items(): s += '<td align="right">%.2f</td>'%token['val_cny']
+    s += '</tr><tr>'
+
+    s += '<tr><td>Relative Value</td>'
+    for _,token in data.items(): s += '<td align="right">%.2f%%</td>'%(token['rel_val']*100.0)
+    s += '</tr><tr>'
+
+    s += '</table>'
+    return s
+
+def print_trade_history(raw,data):
+
+    s = '<table border=1px>'
+    s += '<tr><td>No.</td><td style="width:100px">Date</td><td>Exchange</td><td>Price</td>'
+    for token in data: s += '<td style="width:80px">%s</td>'%token
+    s += '</tr>'
+
+    for i,item in enumerate(reversed(raw)):
+        s += '<tr><td align="right">%d</td>'%(len(raw)-i)
+        s += '<td>%s</td>'%item['date']
+        s += '<td>%s</td>'%item['exchange']
+        s += '<td align="right">%.2f</td>'%(item['sell_count']/item['buy_count'])
+        for token in data:
+            if item['buy_token']==token: s += '<td align="right">%.2f</td>'%item['buy_count']
+            elif item['sell_token']==token: s += '<td align="right">%.2f</td>'%(-item['sell_count'])
+            else: s += '<td></td>'
+        s += '</tr>'
+    s += '</table>'
+    return s
 
 jdata = load_ledger(sys.argv[1])
 
@@ -77,73 +147,34 @@ for item in jdata:
 
 ticker_folder = os.environ['ZENO_OUTPUT_DIR']+'/collector/cryptorank/basic'
 ticker = CryptoRankTicker(ticker_folder)
-for token in data:
-    data[token]['val_usd'] = ticker.get_price(token) * data[token]['count']
-    data[token]['val_cny'] = ticker.get_price(token) * 6.4 * data[token]['count']
-    data[token]['price_usd'] = ticker.get_price(token)
+for key,value in data.items():
+    value['val_usd'] = ticker.get_price(key) * value['count']
+    value['val_cny'] = ticker.get_price(key) * 6.4 * value['count']
+    value['price_usd'] = ticker.get_price(key)
 
 total_token_val_cny = 0
-for token in data: total_token_val_cny += data[token]['val_cny'] if token != 'CNY' else 0
-for token in data: data[token]['rel_val'] = data[token]['val_cny'] / total_token_val_cny
+for key,value in data.items(): total_token_val_cny += value['val_cny'] if key != 'CNY' else 0
+for key,value in data.items(): value['rel_val'] = value['val_cny'] / total_token_val_cny
+for key,value in data.items():
+    if key == 'CNY': value['sort_key'] = 1e9-1
+    elif key == 'USDT': value['sort_key'] = 1e9-2
+    else: value['sort_key'] = value['rel_val']
 
-s = ''
+data = {k: v for k, v in sorted(data.items(), key=lambda x:x[1]['sort_key'], reverse=True)}
 
-s += 'Date: ' + ticker.get_datestr() + '\n'
+s = '<html><body>'
 
-profit = total_token_val_cny + data['CNY']['count']
-relative_profit = profit / (-data['CNY']['count'])
-s += ('Total CNY devote:').ljust(25) + '%.1f'%-data['CNY']['count'] + ' CNY\n'
-s += ('Total token values:').ljust(25) + '%.1f'%total_token_val_cny + ' CNY\n'
-s += ('Total profit:').ljust(25) + '%.1f'%profit + ' CNY\n'
-s += ('Total relative profit:').ljust(25) + '%.1f'%(relative_profit*100.0) + '%\n'
+s += '<p align="center">Tab 1. Total summary %s</p>'%print_summary(data)
 
-s += '='*200 + '\n'
+s += '<p align="center">Tab 2. Token summary %s</p>'%print_token_summary(data)
 
-numlen = 14
+s += '<p align="center">Tab 3. Trading history %s</p>'%print_trade_history(jdata,data)
 
-# Print token names
-s +=  ''.rjust(16)
-for token in data: s += token.rjust(numlen)
-s += '\n'
-s += '-'*200 + '\n'
-
-# Print token counts
-s += 'Count'.rjust(16)
-for _,token in data.items(): s += ('%.2f'%token['count']).rjust(14)
-s += '\n' + '-'*200 + '\n'
-
-# Print real time price
-s += 'Price(USDT)'.rjust(16)
-for _,token in data.items(): s += ('%.2f'%token['price_usd']).rjust(14)
-s += '\n' + '-'*200 + '\n'
-
-# Print token value in USDT
-s += 'Value(USDT)'.rjust(16)
-for _,token in data.items(): s += ('%.2f'%token['val_usd']).rjust(14)
-s += '\n' + '-'*200 + '\n'
-
-# Print token value in CNY
-s += 'Value(CNY)'.rjust(16)
-for _,token in data.items(): s += ('%.2f'%token['val_cny']).rjust(14)
-s += '\n' + '-'*200 + '\n'
-
-# Print token value in CNY
-s += 'Relative Value'.rjust(16)
-for _,token in data.items(): s += ('%.2f'%(token['rel_val']*100.0)+'%').rjust(14)
-s += '\n' + '='*200 + '\n'
-
-for i,item in enumerate(reversed(jdata)):
-    s += (str(len(jdata)-i) + '.').ljust(6) + item['date'].rjust(10)
-    for token in data:
-        if item['buy_token']==token: s += str(item['buy_count']).rjust(numlen)
-        elif item['sell_token']==token: s += str(-item['sell_count']).rjust(numlen)
-        else: s += ''.rjust(numlen)
-    s += '\n'
-
+s += '</body></html>'
 
 folder = os.environ['ZENO_OUTPUT_DIR']+'/analyzer/blance'
 if not os.path.isdir(folder): os.makedirs(folder)
-fpath = folder + '/' + ticker.get_datestr() + '.txt'
+fpath = folder + '/' + ticker.get_datestr() + '.html'
 fp = open(fpath,'w')
 fp.write(s)
 
